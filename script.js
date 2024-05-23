@@ -22,3 +22,32 @@ function parseData(data) {
   });
   return { years, temps };
 }
+
+function renderChart(ctx, globalTemps) {
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: globalTemps.years,
+      datasets: [
+        {
+          label: "Temperature in °C",
+          data: globalTemps.temps,
+          fill: false,
+          borderColor: "rgba(255, 99, 132, 1)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {},
+  });
+}
+
+async function setup() {
+  const ctx = document.getElementById("myChart").getContext("2d");
+  const data = await getData();
+  const globalTemps = parseData(data);
+  renderChart(ctx, globalTemps);
+}
+
+window.addEventListener("load", setup);
