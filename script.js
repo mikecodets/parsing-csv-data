@@ -1,4 +1,4 @@
-async function getData(url) {
+async function fetchData(url) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -10,3 +10,15 @@ async function getData(url) {
     throw error;
   }
 }
+
+async function parseData() {
+  const url = "ZonAnn.Ts+dSST.csv";
+  const rawData = await fetchData(url);
+  const table = rawData.split("\n").slice(1);
+  table.forEach((row) => {
+    const [year, temp] = row.split(",");
+    console.log(year, temp);
+  });
+}
+
+parseData();
