@@ -1,24 +1,24 @@
-async function fetchData(url) {
+async function getData() {
   try {
-    const response = await fetch(url);
+    const response = await fetch("ZonAnn.Ts+dSST.csv");
     if (!response.ok) {
-      throw new Error("Failed to fetch data");
+      throw new Error("Falha ao buscar dados");
     }
-    return await response.text();
+    return response.text();
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Erro ao buscar dados:", error);
     throw error;
   }
 }
 
-async function parseData() {
-  const url = "ZonAnn.Ts+dSST.csv";
-  const rawData = await fetchData(url);
-  const table = rawData.split("\n").slice(1);
-  table.forEach((row) => {
-    const [year, temp] = row.split(",");
-    console.log(year, temp);
+function parseData(data) {
+  const lines = data.split("\n").slice(1);
+  const years = [];
+  const temps = [];
+  lines.forEach((line) => {
+    const [year, temperature] = line.split(",");
+    years.push(year);
+    temps.push(14 + parseFloat(temperature));
   });
+  return { years, temps };
 }
-
-parseData();
